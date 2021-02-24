@@ -1,4 +1,6 @@
+import os
 import json
+from jinja2 import Template, BaseLoader, Environment, FileSystemLoader
 
 """
 json格式
@@ -14,6 +16,7 @@ json格式
                         "idx": 1,
                         "op_type": "点击",  # 操作类型
                         "target": "用户名输入框", # 对象
+                        "value": "value1, value2",  # 数值
                         "xpath": "",  # 
                         "expect_type": "存在",  # 预期结果_判断类型
                         "expect_target": "输出框",  # 预期结果_对象
@@ -33,8 +36,6 @@ json格式
 }
 """
 
-# 1.判断是否有target没有xpath
-# 2.整合一个target的xpath字典
 
 
 def json_2_testcase(j):
@@ -55,6 +56,52 @@ def json_2_testcase(j):
         ele_submit = self.page.element('//*[@id="app"]/div/div[2]/div/form/div[4]/div/button', name='提交按钮')
         self.page.click_element(ele_submit, name='提交按钮')
 
+    1.判断是否有target没有xpath
+    2.整合一个target的xpath字典
+    3.生成输入数值的字典
+    4.生成变量对象字典
+
     :param json:
     :return:
     """
+
+
+def test():
+    test_data = {
+        "testcase_name": "用例名称",
+        "dependency": "前置条件",
+        "ops": [
+            {
+                "idx": 1,
+                "op_type": "点击",  # 操作类型
+                "target": "用户名输入框",  # 对象
+                "value": "value1, value2",  # 数值
+                "xpath": "/input",  #
+                "expect_type": "存在",  # 预期结果_判断类型
+                "expect_target": "输出框",  # 预期结果_对象
+                "expect_value": "value1, value2",  # 预期结果_数值
+                "expect_xpath": "",  # 预期结果_xpath
+                "desc": "",  # 描述
+            },
+            {
+                "idx": 2,
+                "op_type": "点击",  # 操作类型
+                "target": "fffff",  # 对象
+                "xpath": "",  #
+                "expect_type": "存在",  # 预期结果_判断类型
+                "expect_target": "输出框",  # 预期结果_对象
+                "expect_value": "value1, value2",  # 预期结果_数值
+                "expect_xpath": "",  # 预期结果_xpath
+                "desc": "",  # 描述
+            },
+        ]
+    }
+    variables_dict = {}
+    # template = Template(open("F:/github/webauto/po/templates/test_function.templ", encoding='utf-8').read())
+    template = Environment(loader=FileSystemLoader("F:/github/webauto/po/templates/")).from_string(open("F:/github/webauto/po/templates/test_function.templ", encoding='utf-8').read())
+    result = template.render(test_data, variables_dict=variables_dict)
+    print(result)
+
+
+if __name__ == '__main__':
+    test()
