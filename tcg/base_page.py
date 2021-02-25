@@ -2,6 +2,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 import time
 
 
@@ -35,8 +36,15 @@ class NormalPage(BasePage):
     def send_keys(self, ele, keys, name=None):
         ele.send_keys(keys)
 
+    @allure.step('{name} 选择 {value}')
+    def select(self, ele, value, name=None):
+        select = Select(ele)
+        # select by visible text
+        select.select_by_visible_text(value)
+        # # select by value
+        # select.select_by_value('1')
+
     @allure.step('验证标题是否正确')
     def verify(self, verify_char):
         title = self.driver.title
-        print(title)
         assert verify_char == title
