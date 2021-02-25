@@ -4,3 +4,5 @@ allure-pytest==2.8.34
 Pillow==8.1.0
 pytest-dependency==0.5.1
 pypinyin==0.40.0
+pandas==1.2.2
+openpyxl==3.0.6
