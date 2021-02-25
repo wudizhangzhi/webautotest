@@ -1,8 +1,8 @@
 import sys
 
 sys.path.append("..")
-from po.browser_engine import BrowserEngine
-from po.base_page import NormalPage
+from tcg.browser_engine import BrowserEngine
+from tcg.base_page import NormalPage
 import pytest
 import allure
 import time
@@ -15,9 +15,9 @@ class {{test_class_name}}:
         cls.driver = browse.get_driver()
         cls.page = NormalPage(cls.driver)
 
-    @classmethod
-    def teardown_class(cls):
-        cls.driver.quit()
+    # @classmethod
+    #def teardown_class(cls):
+    #    cls.driver.quit()
 
     {% for function in functions %}
     {{function|indent}}

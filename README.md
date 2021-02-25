@@ -12,3 +12,5 @@
 
 # TODO 
 [ ] 支持使用输入的参数当作结果判断，例如 assert element.text.strip() == input_param
+[ ] 支持判断结果是空或者不是空, 支持判断结果长度
+[ ] 操作支持下拉选择

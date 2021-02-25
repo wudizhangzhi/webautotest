@@ -1,4 +1,4 @@
-{% if dependency -%}@pytest.mark.dependency(name="{{dependency}}"){% endif %}
+@pytest.mark.dependency(name="{{test_function_name}}", scope="session", depends=[{% if dependency -%}"{{test_file_name}}::{{dependency}}"{% endif %}])
 @allure.story("{{testcase_name}}")
 @pytest.mark.parametrize("{{params}}", {{params_values}})
 def {{test_function_name}}(self, {{params}}):

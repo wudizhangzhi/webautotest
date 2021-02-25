@@ -16,6 +16,8 @@ TEMPLATE_FLODER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'temp
 TEMPLATE_TESTCASE = os.path.join(TEMPLATE_FLODER, 'testcase.templ')
 TEMPLATE_FUNCATION = os.path.join(TEMPLATE_FLODER, 'test_function.templ')
 
+__all__ = ['generate_code_from_excel',]
+
 
 def read_from_excel(path):
     """
@@ -207,14 +209,16 @@ def json_2_testcase(j, output=''):
             # TODO 创建 __init__.py
         for module, test_case_list in sheet_data.items():
             func_code_list = []
+            test_class_name = to_test_class_name(module)
+            test_file_name = to_test_file_name(module)
             for test_case in test_case_list:
+                test_case['test_file_name'] = test_file_name
                 func_code = generate_function_code(test_case)
                 func_code_list.append(func_code)
-            test_class_name = to_test_class_name(module)
+
             result = generate_code_from_template(TEMPLATE_TESTCASE, functions=func_code_list,
                                                  test_class_name=test_class_name,
                                                  module_name=module)
-            test_file_name = to_test_file_name(module)
             print(f'保存到-> {os.path.join(floder, test_file_name)}')
             with open(os.path.join(floder, test_file_name), 'w', encoding='utf8') as f:
                 f.write(result)
