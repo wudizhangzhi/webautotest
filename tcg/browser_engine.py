@@ -1,8 +1,9 @@
+import os
 from selenium import webdriver
 
 
 class BrowserEngine(object):
-    chrome_driver_path = 'F:/github/webauto/driver/chromedriver.exe'
+    chrome_driver_path = os.path.join(os.path.dirname(os.path.basename(__file__)), 'driver', 'chromedriver.exe')
 
     def __init__(self, selenium_driver):
         self.driver = selenium_driver

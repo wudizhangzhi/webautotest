@@ -9,7 +9,7 @@ from itertools import product
 from collections import defaultdict
 from jinja2 import Template, BaseLoader, Environment, FileSystemLoader
 
-from po.GenerateVariableName import chinese2variable, to_test_func_name, to_test_class_name, to_test_file_name, \
+from tcg.GenerateVariableName import chinese2variable, to_test_func_name, to_test_class_name, to_test_file_name, \
     to_test_folder_name
 
 TEMPLATE_FLODER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
@@ -94,7 +94,7 @@ def read_from_excel(path):
                     ops.append(op)
                 result[sheet_name][test_module_name].append({
                     "testcase_name": test_case_name,
-                    "dependency": dependency,
+                    "dependency": to_test_func_name(dependency) if dependency else None,
                     "ops": ops
                 })
                 # 清空ops
@@ -218,6 +218,11 @@ def json_2_testcase(j, output=''):
             print(f'保存到-> {os.path.join(floder, test_file_name)}')
             with open(os.path.join(floder, test_file_name), 'w', encoding='utf8') as f:
                 f.write(result)
+
+
+def generate_code_from_excel(file_in, out):
+    data = read_from_excel(file_in)
+    json_2_testcase(data, output=out)
 
 
 def test():
