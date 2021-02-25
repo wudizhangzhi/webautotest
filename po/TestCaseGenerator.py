@@ -134,9 +134,10 @@ def json_2_testcase(j):
             func_code_list = []
             for test_case in test_case_list:
                 func_code = generate_function_code(test_case)
-                print(func_code)
                 func_code_list.append(func_code)
-            
+            result = generate_code_from_template(TEMPLATE_TESTCASE, functions=func_code_list)
+            print(result)
+
 
 def test():
     test_data = {
