@@ -7,7 +7,7 @@ from itertools import product
 from collections import defaultdict
 from jinja2 import Template, BaseLoader, Environment, FileSystemLoader
 
-from po.GenerateVariableName import chinese2variable, to_test_func_name
+from po.GenerateVariableName import chinese2variable, to_test_func_name, to_test_class_name, to_test_file_name
 
 TEMPLATE_FLODER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 TEMPLATE_TESTCASE = os.path.join(TEMPLATE_FLODER, 'testcase.templ')
@@ -135,7 +135,15 @@ def json_2_testcase(j):
             for test_case in test_case_list:
                 func_code = generate_function_code(test_case)
                 func_code_list.append(func_code)
-            result = generate_code_from_template(TEMPLATE_TESTCASE, functions=func_code_list)
+                print(func_code)
+                print('-'*50)
+            test_class_name = to_test_class_name(module)
+            result = generate_code_from_template(TEMPLATE_TESTCASE, functions=func_code_list,
+                                                 test_class_name=test_class_name,
+                                                 module_name=module)
+            test_file_name = to_test_file_name(module)
+            with open(test_file_name, 'w', encoding='utf8') as f:
+                f.write(result)
             print(result)
 
 
@@ -172,13 +180,39 @@ def test():
                             "desc": "",  # 描述
                         },
                     ]
+                },
+                {
+                    "testcase_name": "用例名称2",
+                    "dependency": "前置条件2",
+                    "ops": [
+                        {
+                            "idx": 1,
+                            "op_type": "点击",  # 操作类型
+                            "target": "用户名输入框",  # 对象
+                            "value": "",  # 数值
+                            "xpath": "/input",  #
+                            "expect_type": "存在",  # 预期结果_判断类型
+                            "expect_target": "输出框",  # 预期结果_对象
+                            "expect_value": "value1, value2",  # 预期结果_数值
+                            "expect_xpath": "",  # 预期结果_xpath
+                            "desc": "",  # 描述
+                        },
+                        {
+                            "idx": 2,
+                            "op_type": "输入",  # 操作类型
+                            "target": "用户名输入框",  # 对象
+                            "value": "value1, value2",  # 数值
+                            "xpath": "/input",  #
+                            "expect_type": "存在",  # 预期结果_判断类型
+                            "expect_target": "输出框",  # 预期结果_对象
+                            "expect_value": "value1, value2",  # 预期结果_数值
+                            "expect_xpath": "",  # 预期结果_xpath
+                            "desc": "",  # 描述
+                        },
+                    ]
                 }
 
             ],
-        },
-        "sheet2": {
-            "模块3": [
-            ]
         },
     }
     json_2_testcase(test_data)

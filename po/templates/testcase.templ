@@ -7,8 +7,8 @@ import pytest
 import allure
 import time
 
-@allure.feature("普通的测试")
-class TestNormal:
+@allure.feature("{{module_name}}")
+class {{test_class_name}}:
     @classmethod
     def setup_class(cls):
         browse = BrowserEngine(cls)
@@ -20,5 +20,6 @@ class TestNormal:
         cls.driver.quit()
 
     {% for function in functions %}
-        {{- function -}}
+    {{function|indent}}
+
     {% endfor %}
