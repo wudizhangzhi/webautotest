@@ -16,7 +16,7 @@ def {{test_function_name}}(self, {{params}}):
     self.page.send_keys({{target_dict[op.target]["element_name"]}}, {{target_dict[op.target]["variable_name"]}}, name="{{op.target}}")
 
     {%- elif op.op_type == "打开网页" %}
-    self.page.open_url("{{op.target}}")
+    self.page.open_url("{{op.value}}")
     {%- elif op.op_type == "人工" %}
     time.sleep({%- if op.target -%}{{op.target}}{%- else -%}10{%- endif -%})
     {%- else -%}
@@ -28,9 +28,15 @@ def {{test_function_name}}(self, {{params}}):
     {% if op.expect_type == "存在" -%}
     assert {{target_dict[op.expect_target]["element_name"]}}
     {% elif op.expect_type == "等于" -%}
-    assert {{target_dict[op.expect_target]["element_name"]}}.text.strip() == "{{op.expect_value}}"
+    if {{target_dict[op.expect_target]["element_name"]}}.tag_name in ["input"]:
+        assert {{target_dict[op.expect_target]["element_name"]}}.get_attribute("value") == "{{op.expect_value}}"
+    else:
+        assert {{target_dict[op.expect_target]["element_name"]}}.text.strip() == "{{op.expect_value}}"
     {% elif op.expect_type == "包含" -%}
-
+    if {{target_dict[op.expect_target]["element_name"]}}.tag_name in ["input"]:
+        assert "{{op.expect_value}}" in {{target_dict[op.expect_target]["element_name"]}}.get_attribute("value")
+    else:
+        assert "{{op.expect_value}}" in {{target_dict[op.expect_target]["element_name"]}}.text.strip()
     {%- else -%}
     {%- endif -%}
 

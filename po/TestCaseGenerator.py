@@ -147,7 +147,7 @@ def generate_function_code(test_case):
             target_dict[target]['variable_name'] = variable_name
             target_dict[target]['element_name'] = element_name
         value = op.get('value')
-        if value and op_type not in ["人工"]:
+        if value and op_type not in ["人工", "打开网页"]:
             param_dict[target_dict[target]['variable_name']] = str(value).split(',')
 
         # 预期
@@ -204,6 +204,7 @@ def json_2_testcase(j, output=''):
 
         if not os.path.exists(floder):
             os.makedirs(floder)
+            # TODO 创建 __init__.py
         for module, test_case_list in sheet_data.items():
             func_code_list = []
             for test_case in test_case_list:
