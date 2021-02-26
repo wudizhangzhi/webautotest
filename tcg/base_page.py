@@ -26,7 +26,7 @@ class NormalPage(BasePage):
         self.driver.get(url)
 
     @allure.step('找到{name}元素: {loc}')
-    def element(self, loc, by=By.XPATH, name=None):
+    def element(self, loc, by=By.CSS_SELECTOR, name=None):
         ele = self.find_element(by, loc)
         return ele
 
@@ -49,7 +49,9 @@ class NormalPage(BasePage):
     @allure.step('{name} 选择 {value}')
     def select_by_visible_text(self, ele, value, name=None):
         matches = ele.find_elements_by_xpath(f"//*[contains(text(), '{value}')]")
-        matches[0].click()
+        for m in matches:
+            print(m.tag_name)
+        matches[-1].click()
 
     @allure.step('验证标题是否正确')
     def verify(self, verify_char):
