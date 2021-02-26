@@ -5,6 +5,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 import time
 
+from tcg.browser_engine import BrowserEngine
+
 
 class BasePage:
     def __init__(self, selenium_driver):
@@ -48,3 +50,7 @@ class NormalPage(BasePage):
     def verify(self, verify_char):
         title = self.driver.title
         assert verify_char == title
+
+
+browse = BrowserEngine()
+page = NormalPage(browse.get_driver())

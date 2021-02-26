@@ -1,9 +1,9 @@
 """TCG.
 
 Usage:
-  cmd.py <path> [-o FILE]
-  cmd.py (-h | --help)
-  cmd.py --version
+  cmdline.py <path> [-o FILE]
+  cmdline.py (-h | --help)
+  cmdline.py --version
 
 Options:
   -h --help     Show this screen.
@@ -12,7 +12,7 @@ Options:
 """
 import os
 from docopt import docopt
-from tcg import generate_code_from_excel
+from tcg.TestCaseGenerator import generate_code_from_excel
 
 if __name__ == '__main__':
 

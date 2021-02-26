@@ -32,6 +32,8 @@ def read_from_excel(path):
                     {
                         "testcase_name": "用例名称",
                         "dependency": "前置条件",
+                        "module_name": "模块1",
+                        "order": 1,
                         "ops": [
                             {
                                 "idx": 1,
@@ -67,6 +69,8 @@ def read_from_excel(path):
         dependency = None
         ops = []
         last_idx = shape[0] - 1
+        test_case_module_dict = {}
+        order = 0
         for idx, row in df.iterrows():
             """
             如果test_case_name变化或者是最后一行
@@ -94,13 +98,18 @@ def read_from_excel(path):
                 # 如果是最后一行，需要把当前op加入
                 if idx == last_idx:
                     ops.append(op)
+                test_case_module_dict[test_case_name] = test_module_name
+
                 result[sheet_name][test_module_name].append({
                     "testcase_name": test_case_name,
-                    "dependency": to_test_func_name(dependency) if dependency else None,
+                    "module_name": test_module_name,
+                    "order": order,
+                    "dependency": f"{to_test_file_name(test_case_module_dict[dependency])}::{to_test_class_name(test_case_module_dict[dependency])}::{to_test_func_name(dependency)}" if dependency else None,  # 依赖名称
                     "ops": ops
                 })
                 # 清空ops
                 ops = []
+                order += 1
 
             if _test_module_name:
                 test_module_name = _test_module_name

@@ -1,8 +1,7 @@
 import sys
 
 sys.path.append("..")
-from tcg.browser_engine import BrowserEngine
-from tcg.base_page import NormalPage
+from tcg.base_page import page
 import pytest
 import allure
 import time
@@ -11,9 +10,7 @@ import time
 class {{test_class_name}}:
     @classmethod
     def setup_class(cls):
-        browse = BrowserEngine(cls)
-        cls.driver = browse.get_driver()
-        cls.page = NormalPage(cls.driver)
+        cls.page = page
 
     # @classmethod
     #def teardown_class(cls):

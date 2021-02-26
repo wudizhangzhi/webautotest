@@ -2,3 +2,5 @@
 .idea
 *.pyc
 .pytest_cache
+allure_results
+tmp

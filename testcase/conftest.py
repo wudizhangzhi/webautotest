@@ -3,9 +3,9 @@ import allure
 from allure_commons.types import AttachmentType
 from PIL import ImageGrab
 from io import BytesIO
-from pytest_dependency import DependencyManager
-
-DependencyManager.ScopeCls['module'] = DependencyManager.ScopeCls['session']
+# from pytest_dependency import DependencyManager
+#
+# DependencyManager.ScopeCls['module'] = DependencyManager.ScopeCls['session']
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
