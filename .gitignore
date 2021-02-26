@@ -4,3 +4,4 @@
 .pytest_cache
 allure_results
 tmp
+!测试用例模板.xlsx
