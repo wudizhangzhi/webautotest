@@ -6,6 +6,14 @@
 
 
 # USAGE
+
+## 1.编辑测试用例excel
+复制example目录底下的测试用例模板，编写自己的测试用例
+[详细方法](docs/how_to_write_excel.md)
+
+## 2.生成代码
+
+## 3.执行测试生成报告
 在命令行中切换到webautotest目录，执行
 ```shell
 pytest --alluredir=.\allure_results --clean-alluredir -v
@@ -18,6 +26,7 @@ allure serve .\allure_results
 ```shell
 allure generate .\allure_results -o .\allure_html
 ```
+
 
 # TODO
 - [ ] 支持使用输入的参数当作结果判断，例如 assert element.text.strip() == input_param

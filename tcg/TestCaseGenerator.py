@@ -86,11 +86,11 @@ def read_from_excel(path):
                 "op_type": row_dict['操作'],
                 "target": row_dict['对象'],
                 "value": row_dict['数值'],
-                "xpath": row_dict['xpath'],
+                "xpath": row_dict['selector'],
                 "expect_type": row_dict['判断'],
                 "expect_target": row_dict['对象.1'],
                 "expect_value": row_dict['数值.1'],
-                "expect_xpath": row_dict['xpath.1'],
+                "expect_xpath": row_dict['selector.1'],
                 "desc": row_dict['描述'],
             }
             if idx != 0 and _test_case_name and _test_case_name != test_case_name or idx == last_idx:
@@ -159,7 +159,7 @@ def generate_function_code(test_case):
             target_dict[target]['element_name'] = element_name
         value = op.get('value')
         if value and op_type not in ["人工", "打开网页"]:
-            param_dict[target_dict[target]['variable_name']] = str(value).split(',')
+            param_dict[target_dict[target]['variable_name']] = str(value).split('\n')
 
         # 预期
         expect_target = op.get('expect_target')
