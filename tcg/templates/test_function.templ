@@ -15,8 +15,10 @@ def {{test_function_name}}(self, {{params}}):
     {%- elif op.op_type == "输入"%}
     self.page.send_keys({{target_dict[op.target]["element_name"]}}, {{target_dict[op.target]["variable_name"]}}, name="{{op.target}}")
     {%- elif op.op_type == "下拉选择" %}
-    self.page.select({{target_dict[op.target]["element_name"]}}, {{target_dict[op.target]["variable_name"]}}, name="{{op.target}}")
-    # self.page.select_by_visible_text({{target_dict[op.target]["element_name"]}}, {{target_dict[op.target]["variable_name"]}}, name="{{op.target}}")
+    # self.page.select({{target_dict[op.target]["element_name"]}}, {{target_dict[op.target]["variable_name"]}}, name="{{op.target}}")
+    time.sleep(5)
+    self.page.select_by_visible_text({{target_dict[op.target]["element_name"]}}, {{target_dict[op.target]["variable_name"]}}, name="{{op.target}}")
+    time.sleep(5)
     {%- elif op.op_type == "打开网页" %}
     self.page.open_url("{{op.value}}")
     {%- elif op.op_type == "人工" %}
