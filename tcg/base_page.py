@@ -46,6 +46,11 @@ class NormalPage(BasePage):
         # # select by value
         # select.select_by_value('1')
 
+    @allure.step('{name} 选择 {value}')
+    def select_by_visible_text(self, ele, value, name=None):
+        matches = ele.find_elements_by_xpath(f"//*[contains(text(), '{value}')]")
+        return matches[0]
+
     @allure.step('验证标题是否正确')
     def verify(self, verify_char):
         title = self.driver.title
