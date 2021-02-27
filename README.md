@@ -13,6 +13,24 @@
 
 ## 2.生成代码
 
+```bash
+TCG.
+自动化测试
+Usage:
+  cmdline.py <path> [-o FILE]
+  cmdline.py (-h | --help)
+  cmdline.py --version
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+  -o DIR --output DIR 输出路径.
+```
+
+```shell
+python cmdline.py 测试用例.xlsx -o <输出目录>
+```
+
 ## 3.执行测试生成报告
 在命令行中切换到webautotest目录，执行
 ```shell
