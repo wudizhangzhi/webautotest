@@ -23,4 +23,5 @@ def to_test_file_name(s):
 
 
 def to_test_folder_name(s):
-    return to_test_func_name(s)
+    # return to_test_func_name(s)
+    return s

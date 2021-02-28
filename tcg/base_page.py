@@ -53,6 +53,13 @@ class NormalPage(BasePage):
             print(m.tag_name)
         matches[-1].click()
 
+    @allure.step('{name} 上传 {value}')
+    def upload(self, ele, value, name=None):
+        # script = f"""document.querySelector("{xpath}").value = '{value};'"""
+        # self.driver.execute_script(script)
+        ele_input = ele.find_element_by_xpath('//input[@type="file"]')
+        ele_input.send_keys(value)
+
     @allure.step('验证标题是否正确')
     def verify(self, verify_char):
         title = self.driver.title

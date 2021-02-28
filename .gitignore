@@ -5,3 +5,4 @@
 allure_results
 tmp
 !example/测试用例模板.xlsx
+.DS_Store

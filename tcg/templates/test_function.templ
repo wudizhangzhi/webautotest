@@ -20,6 +20,8 @@ def {{test_function_name}}(self, {{params}}):
     self.page.select_by_visible_text({{target_dict[op.target]["element_name"]}}, {{target_dict[op.target]["variable_name"]}}, name="{{op.target}}")
     {%- elif op.op_type == "打开网页" %}
     self.page.open_url("{{op.value}}")
+    {%- elif op.op_type == "上传" %}
+
     {%- elif op.op_type == "人工" %}
     time.sleep({%- if op.target -%}{{op.target}}{%- else -%}10{%- endif -%})
     {%- else -%}

@@ -47,6 +47,8 @@ allure generate .\allure_results -o .\allure_html
 
 
 # TODO
+- [ ] 文件名称使用中文
+- [ ] 更多的操作，日期选择，上传，拖拽等
 - [ ] 支持使用输入的参数当作结果判断，例如 assert element.text.strip() == input_param
 - [x] 支持判断结果是空或者不是空，大于小于等, 支持判断结果长度
 - [x] ~~操作支持下拉选择(自定义前端框架的dropdown menu, 没有使用\<select\>)~~, 改用css-selector
