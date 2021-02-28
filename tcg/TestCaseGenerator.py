@@ -95,8 +95,8 @@ def read_from_excel(path):
             }
             if idx != 0 and _test_case_name and _test_case_name != test_case_name or idx == last_idx:
                 # 如果不是第一行,之前的数据保存入字典
-                # 如果是最后一行，需要把当前op加入
-                if idx == last_idx:
+                # 如果是最后一行或者只有一行，需要把当前op加入
+                if idx == last_idx or idx == 0:
                     ops.append(op)
                 test_case_module_dict[test_case_name] = test_module_name
                 result[sheet_name][test_module_name].append({
