@@ -99,7 +99,6 @@ def read_from_excel(path):
                 if idx == last_idx:
                     ops.append(op)
                 test_case_module_dict[test_case_name] = test_module_name
-
                 result[sheet_name][test_module_name].append({
                     "testcase_name": test_case_name,
                     "module_name": test_module_name,

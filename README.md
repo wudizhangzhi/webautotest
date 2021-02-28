@@ -47,6 +47,7 @@ allure generate .\allure_results -o .\allure_html
 
 
 # TODO
+- [ ] 只有一行测试用例的bug, 只有一个op操作步骤的bug
 - [ ] 文件名称使用中文
 - [ ] 更多的操作，日期选择，上传，拖拽等
 - [ ] 支持使用输入的参数当作结果判断，例如 assert element.text.strip() == input_param
