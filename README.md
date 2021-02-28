@@ -48,7 +48,11 @@ allure generate .\allure_results -o .\allure_html
 
 # TODO
 - [ ] 支持使用输入的参数当作结果判断，例如 assert element.text.strip() == input_param
-- [ ] 支持判断结果是空或者不是空, 支持判断结果长度
+- [x] 支持判断结果是空或者不是空，大于小于等, 支持判断结果长度
 - [x] ~~操作支持下拉选择(自定义前端框架的dropdown menu, 没有使用\<select\>)~~, 改用css-selector
 - [ ] 执行顺序的优化
+- [x] ~~driver地址加入命令行参数~~暂时使用通用名称
+- [ ] 自动生成脑图
+- [ ] 测试用例自动记录到禅道,tpad
+- [ ] 测试结果自动添加到禅道记录bug
 - [ ] 增加接口的自动化测试
