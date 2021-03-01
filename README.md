@@ -1,9 +1,9 @@
 
 # GET STARTED
-- 根据自己chrome的版本。下载chromedriver
-- 安装java，并配置环境路径()
-- 下载allure, 并加入环境路径(开发测试版本2.10.0)
-- 安装python和依赖包(开发测试使用版本是Python 3.8.3)
+- 根据自己chrome的版本。下载chromedriver, 放到项目路径driver下, [详细方法](docs/install_chromedriver.md)
+- 安装java，并配置环境路径, [详细方法](docs/install_java.md)
+- 下载allure, 并加入环境路径(开发测试版本2.10.0) , [详细方法](docs/install_allure.md)
+- 安装python和依赖包(开发测试使用版本是Python 3.8)[下载地址](https://www.python.org/downloads/release/python-387/)
 
 
 # USAGE
