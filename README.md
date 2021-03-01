@@ -1,15 +1,19 @@
 
 # GET STARTED
-- 安装java，并配置环境路径
-- 下载allure, 并加入环境路径
-- 安装python和依赖包
+- 根据自己chrome的版本。下载chromedriver
+- 安装java，并配置环境路径()
+- 下载allure, 并加入环境路径(开发测试版本2.10.0)
+- 安装python和依赖包(开发测试使用版本是Python 3.8.3)
 
 
 # USAGE
 
 ## 1.编辑测试用例excel
-复制example目录底下的测试用例模板，编写自己的测试用例
-[详细方法](docs/how_to_write_excel.md)
+参考[示例.xlsx](example/示例.xlsx)
+
+复制example目录底下的[测试用例模板.xlsx](example/测试用例模板.xlsx)
+
+编写自己的测试用例[详细方法](docs/how_to_write_excel.md)
 
 ## 2.生成代码
 
@@ -31,15 +35,22 @@ Options:
 python cmdline.py 测试用例.xlsx -o <输出目录>
 ```
 
+
+
+
 ## 3.执行测试生成报告
 在命令行中切换到webautotest目录，执行
 ```shell
 pytest --alluredir=.\allure_results --clean-alluredir -v
 ```
+![图片alt](./docs/imgs/workflow.gif)
+
 查看报告，执行
 ```shell
 allure serve .\allure_results
 ```
+![图片alt](./docs/imgs/report.gif)
+
 生成html报告，执行
 ```shell
 allure generate .\allure_results -o .\allure_html

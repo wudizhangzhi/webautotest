@@ -49,8 +49,6 @@ class NormalPage(BasePage):
     @allure.step('{name} 选择 {value}')
     def select_by_visible_text(self, ele, value, name=None):
         matches = ele.find_elements_by_xpath(f"//*[contains(text(), '{value}')]")
-        # for m in matches:
-        #     print(m.tag_name)
         matches[-1].click()
 
     @allure.step('{name} 上传 {value}')

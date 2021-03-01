@@ -41,19 +41,19 @@ def {{test_function_name}}(self, {{params}}):
     {% elif op.expect_type == "包含" -%}
     assert "{{op.expect_value}}" in value_{{target_dict[op.expect_target]["element_name"]}}
     {% elif op.expect_type == "是空" -%}
-        assert value_{{target_dict[op.expect_target]["element_name"]}}
+    assert not value_{{target_dict[op.expect_target]["element_name"]}}
     {% elif op.expect_type == "非空" -%}
-        assert not value_{{target_dict[op.expect_target]["element_name"]}}
+    assert value_{{target_dict[op.expect_target]["element_name"]}}
     {% elif op.expect_type == "大于" -%}
-        if value_{{target_dict[op.expect_target]["element_name"]}}.isdigit():
-            assert int(value_{{target_dict[op.expect_target]["element_name"]}}) > op.expect_value
-        else:
-            assert len(value_{{target_dict[op.expect_target]["element_name"]}}) > op.expect_value
+    if value_{{target_dict[op.expect_target]["element_name"]}}.isdigit():
+        assert int(value_{{target_dict[op.expect_target]["element_name"]}}) > {{op.expect_value}}
+    else:
+        assert len(value_{{target_dict[op.expect_target]["element_name"]}}) > {{op.expect_value}}
     {% elif op.expect_type == "小于" -%}
-        if value_{{target_dict[op.expect_target]["element_name"]}}.isdigit():
-            assert int(value_{{target_dict[op.expect_target]["element_name"]}}) < op.expect_value
-        else:
-            assert len(value_{{target_dict[op.expect_target]["element_name"]}}) < op.expect_value
+    if value_{{target_dict[op.expect_target]["element_name"]}}.isdigit():
+        assert int(value_{{target_dict[op.expect_target]["element_name"]}}) < {{op.expect_value}}
+    else:
+        assert len(value_{{target_dict[op.expect_target]["element_name"]}}) < {{op.expect_value}}
     {%- else -%}
     {%- endif -%}
 
