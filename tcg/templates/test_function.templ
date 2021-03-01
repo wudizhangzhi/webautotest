@@ -23,7 +23,7 @@ def {{test_function_name}}(self, {{params}}):
     {%- elif op.op_type == "上传" %}
     self.page.upload({{target_dict[op.target]["element_name"]}}, "{{op.value}}", name="{{op.target}}")
     {%- elif op.op_type == "人工" %}
-    time.sleep({%- if op.target -%}{{op.target}}{%- else -%}10{%- endif -%})
+    self.page.manual({{op.target}})
     {%- else -%}
     {%- endif -%}
 

@@ -60,6 +60,10 @@ class NormalPage(BasePage):
         ele_input = ele.find_element_by_xpath('//input[@type="file"]')
         ele_input.send_keys(value)
 
+    @allure.step('人工操作, 等待{0}')
+    def manual(self, value=10):
+        time.sleep(value)
+
     @allure.step('验证标题是否正确')
     def verify(self, verify_char):
         title = self.driver.title
