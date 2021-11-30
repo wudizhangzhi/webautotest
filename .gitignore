@@ -7,3 +7,5 @@ tmp
 !example/测试用例模板.xlsx
 !example/示例.xlsx
 .DS_Store
+.ipynb_checkpoints/
+*.ipynb

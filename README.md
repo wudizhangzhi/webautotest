@@ -72,3 +72,4 @@ allure generate .\allure_results -o .\allure_html
 - [ ] 增加接口的自动化测试
   - [ ] 单独表格声明接口地址变量等
   - [ ] 返回结果保存起来，以后每个请求可以带入这些变量
+  - [ ] 判断返回状态码，返回头，cookie等

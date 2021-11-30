@@ -16,6 +16,7 @@ TEMPLATE_FLODER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'temp
 TEMPLATE_TESTCASE = os.path.join(TEMPLATE_FLODER, 'testcase.templ')
 TEMPLATE_FUNCATION = os.path.join(TEMPLATE_FLODER, 'test_function.templ')
 
+
 # __all__ = ['generate_code_from_excel',]
 
 def read_from_excel(path):
@@ -34,7 +35,7 @@ def read_from_excel(path):
                         "module_name": "模块1",
                         "order": 1,
                         "ops": [
-                            {
+                            # {
                                 "idx": 1,
                                 "op_type": "点击",  # 操作类型
                                 "target": "用户名输入框", # 对象
@@ -102,7 +103,8 @@ def read_from_excel(path):
                     "testcase_name": test_case_name,
                     "module_name": test_module_name,
                     "order": order,
-                    "dependency": f"{to_test_file_name(test_case_module_dict[dependency])}::{to_test_class_name(test_case_module_dict[dependency])}::{to_test_func_name(dependency)}" if dependency else None,  # 依赖名称
+                    "dependency": f"{to_test_file_name(test_case_module_dict[dependency])}::{to_test_class_name(test_case_module_dict[dependency])}::{to_test_func_name(dependency)}" if dependency else None,
+                    # 依赖名称
                     "ops": ops
                 })
                 # 清空ops
