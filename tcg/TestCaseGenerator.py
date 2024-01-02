@@ -1,22 +1,30 @@
 import sys
 
 sys.path.append("..")
-import os
 import json
-import pandas as pd
-from numpy import nan
-from itertools import product
+import os
 from collections import defaultdict
-from jinja2 import Template, BaseLoader, Environment, FileSystemLoader
+from itertools import product
 
-from tcg.GenerateVariableName import chinese2variable, to_test_func_name, to_test_class_name, to_test_file_name, \
-    to_test_folder_name
+import pandas as pd
+from jinja2 import BaseLoader, Environment, FileSystemLoader, Template
+from numpy import nan
 
-TEMPLATE_FLODER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
-TEMPLATE_TESTCASE = os.path.join(TEMPLATE_FLODER, 'testcase.templ')
-TEMPLATE_FUNCATION = os.path.join(TEMPLATE_FLODER, 'test_function.templ')
+from tcg.GenerateVariableName import (
+    chinese2variable,
+    to_test_class_name,
+    to_test_file_name,
+    to_test_folder_name,
+    to_test_func_name,
+)
 
-__all__ = ['generate_code_from_excel',]
+TEMPLATE_FLODER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
+TEMPLATE_TESTCASE = os.path.join(TEMPLATE_FLODER, "testcase.templ")
+TEMPLATE_FUNCATION = os.path.join(TEMPLATE_FLODER, "test_function.templ")
+
+__all__ = [
+    "generate_code_from_excel",
+]
 
 
 def read_from_excel(path):
@@ -62,7 +70,7 @@ def read_from_excel(path):
     xls = pd.ExcelFile(path)
     for sheet_name in xls.sheet_names:
         df = pd.read_excel(path, sheet_name=sheet_name, header=1)
-        df = df.replace(nan, '', regex=True)
+        df = df.replace(nan, "", regex=True)
         shape = df.shape
         test_case_name = None
         test_module_name = None
@@ -78,34 +86,43 @@ def read_from_excel(path):
             中间 _test_case_name != null 且 test_case_name 跟上次不一样时候, 需要整合模块数据,并清空ops, 然后append 当前行的op
             """
             row_dict = row.to_dict()
-            _test_case_name = row_dict['Unnamed: 0']
-            _test_module_name = row_dict['Unnamed: 1']
-            _dependency = row_dict['Unnamed: 2']
+            _test_case_name = row_dict["Unnamed: 0"]
+            _test_module_name = row_dict["Unnamed: 1"]
+            _dependency = row_dict["Unnamed: 2"]
             op = {
-                "idx": row_dict['序号'],
-                "op_type": row_dict['操作'],
-                "target": row_dict['对象'],
-                "value": row_dict['数值'],
-                "xpath": row_dict['selector'],
-                "expect_type": row_dict['判断'],
-                "expect_target": row_dict['对象.1'],
-                "expect_value": row_dict['数值.1'],
-                "expect_xpath": row_dict['selector.1'],
-                "desc": row_dict['描述'],
+                "idx": row_dict["序号"],
+                "op_type": row_dict["操作"],
+                "target": row_dict["对象"],
+                "value": row_dict["数值"],
+                "xpath": row_dict["selector"],
+                "expect_type": row_dict["判断"],
+                "expect_target": row_dict["对象.1"],
+                "expect_value": row_dict["数值.1"],
+                "expect_xpath": row_dict["selector.1"],
+                "desc": row_dict["描述"],
             }
-            if idx != 0 and _test_case_name and _test_case_name != test_case_name or idx == last_idx:
+            if (
+                idx != 0
+                and _test_case_name
+                and _test_case_name != test_case_name
+                or idx == last_idx
+            ):
                 # 如果不是第一行,之前的数据保存入字典
                 # 如果是最后一行或者只有一行，需要把当前op加入
                 if idx == last_idx or idx == 0:
                     ops.append(op)
                 test_case_module_dict[test_case_name] = test_module_name
-                result[sheet_name][test_module_name].append({
-                    "testcase_name": test_case_name,
-                    "module_name": test_module_name,
-                    "order": order,
-                    "dependency": f"{to_test_file_name(test_case_module_dict[dependency])}::{to_test_class_name(test_case_module_dict[dependency])}::{to_test_func_name(dependency)}" if dependency else None,  # 依赖名称
-                    "ops": ops
-                })
+                result[sheet_name][test_module_name].append(
+                    {
+                        "testcase_name": test_case_name,
+                        "module_name": test_module_name,
+                        "order": order,
+                        "dependency": f"{to_test_file_name(test_case_module_dict[dependency])}::{to_test_class_name(test_case_module_dict[dependency])}::{to_test_func_name(dependency)}"
+                        if dependency
+                        else None,  # 依赖名称
+                        "ops": ops,
+                    }
+                )
                 # 清空ops
                 ops = []
                 order += 1
@@ -126,13 +143,14 @@ def read_from_excel(path):
 def generate_code_from_template(template_path, *args, **kwargs):
     variables = dict(*args, **kwargs)
     template = Environment(loader=FileSystemLoader(TEMPLATE_FLODER)).from_string(
-        open(template_path, encoding='utf-8').read())
+        open(template_path, encoding="utf-8").read()
+    )
     return template.render(variables)
 
 
 def generate_function_code(test_case):
     """生成一个测试用例代码"""
-    ops = test_case.get('ops', [])
+    ops = test_case.get("ops", [])
     target_dict = defaultdict(dict)  # 用于储存target的xpath，变量名，数值，元素名
     param_dict = {}  # 输入参数的字典
     for op in ops:
@@ -142,57 +160,67 @@ def generate_function_code(test_case):
         # 4.生成target元素对象字典(target转元素变量名)
         # 5.expect_target的字典
         # 6.期望值变量对象的字典
-        target = op['target']
+        target = op["target"]
         if not target:
-            target = str(op['idx'])
-        op_type = op['op_type']
+            target = str(op["idx"])
+        op_type = op["op_type"]
         if target not in target_dict:
             target_dict[target] = {}
-        xpath = op.get('xpath')
+        xpath = op.get("xpath")
         if xpath:
-            target_dict[target]['xpath'] = xpath
-        if not (target_dict[target].get('variable_name') and target_dict[target].get('element_name')):
+            target_dict[target]["xpath"] = xpath
+        if not (
+            target_dict[target].get("variable_name")
+            and target_dict[target].get("element_name")
+        ):
             variable_name = chinese2variable(target)
             element_name = f"ele_{variable_name}"
-            target_dict[target]['variable_name'] = variable_name
-            target_dict[target]['element_name'] = element_name
-        value = op.get('value')
+            target_dict[target]["variable_name"] = variable_name
+            target_dict[target]["element_name"] = element_name
+        value = op.get("value")
         if value and op_type not in ["人工", "打开网页"]:
-            param_dict[target_dict[target]['variable_name']] = str(value).split('\n')
+            param_dict[target_dict[target]["variable_name"]] = str(value).split("\n")
 
         # 预期
-        expect_target = op.get('expect_target')
+        expect_target = op.get("expect_target")
         if expect_target:
             if expect_target not in target_dict:
                 target_dict[expect_target] = {}
-            expect_xpath = op.get('expect_xpath')
+            expect_xpath = op.get("expect_xpath")
             if expect_xpath:
-                target_dict[expect_target]['xpath'] = expect_xpath
-            if not (target_dict[expect_target].get('variable_name') and target_dict[expect_target].get(
-                    'element_name')):
+                target_dict[expect_target]["xpath"] = expect_xpath
+            if not (
+                target_dict[expect_target].get("variable_name")
+                and target_dict[expect_target].get("element_name")
+            ):
                 variable_name = chinese2variable(expect_target)
                 element_name = f"ele_{variable_name}"
-                target_dict[expect_target]['variable_name'] = variable_name
-                target_dict[expect_target]['element_name'] = element_name
+                target_dict[expect_target]["variable_name"] = variable_name
+                target_dict[expect_target]["element_name"] = element_name
     # TODO 如果有target的属性不全。报错
     # 生成test_case代码
-    test_function_name = to_test_func_name(test_case['testcase_name'])
+    test_function_name = to_test_func_name(test_case["testcase_name"])
     # 整个输入参数
-    params = ', '.join(list(param_dict.keys()))
+    params = ", ".join(list(param_dict.keys()))
     params_values = list(product(*param_dict.values()))
-    function_code = generate_code_from_template(TEMPLATE_FUNCATION, test_case, target_dict=target_dict,
-                                                test_function_name=test_function_name, params=params,
-                                                params_values=params_values)
+    function_code = generate_code_from_template(
+        TEMPLATE_FUNCATION,
+        test_case,
+        target_dict=target_dict,
+        test_function_name=test_function_name,
+        params=params,
+        params_values=params_values,
+    )
     return function_code
 
 
-def json_2_testcase(j, output=''):
+def json_2_testcase(j, output=""):
     """
     @allure.story("测试通用功能1")
     @pytest.mark.dependency(name='test_noraml')
-    @pytest.mark.parametrize("username, password", [('root', '12345678!a')])
+    @pytest.mark.parametrize("username, password", [('root', 'enteryourpassword')])
     def test_noraml(self, username, password):
-        self.page.open_url('https://tsjc.patec.net/')
+        self.page.open_url('https://baidu.com/')
         ele_username = self.page.element('/html/body/div[1]/div/div[2]/div/form/div[1]/div/div[1]/input', name='用户名输入框')
         self.page.send_keys(ele_username, username, name='用户名输入框')
 
@@ -220,15 +248,18 @@ def json_2_testcase(j, output=''):
             test_class_name = to_test_class_name(module)
             test_file_name = to_test_file_name(module)
             for test_case in test_case_list:
-                test_case['test_file_name'] = test_file_name
+                test_case["test_file_name"] = test_file_name
                 func_code = generate_function_code(test_case)
                 func_code_list.append(func_code)
 
-            result = generate_code_from_template(TEMPLATE_TESTCASE, functions=func_code_list,
-                                                 test_class_name=test_class_name,
-                                                 module_name=module)
-            print(f'保存到-> {os.path.join(floder, test_file_name)}')
-            with open(os.path.join(floder, test_file_name), 'w', encoding='utf8') as f:
+            result = generate_code_from_template(
+                TEMPLATE_TESTCASE,
+                functions=func_code_list,
+                test_class_name=test_class_name,
+                module_name=module,
+            )
+            print(f"保存到-> {os.path.join(floder, test_file_name)}")
+            with open(os.path.join(floder, test_file_name), "w", encoding="utf8") as f:
                 f.write(result)
 
 
@@ -238,11 +269,13 @@ def generate_code_from_excel(file_in, out):
 
 
 def test():
-    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'testcase', 'tmp')
-    data = read_from_excel('../测试用例模板.xlsx')
+    path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "testcase", "tmp"
+    )
+    data = read_from_excel("../测试用例模板.xlsx")
     print(json.dumps(data, indent=2))
     json_2_testcase(data, output=path)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test()
